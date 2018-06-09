@@ -57,30 +57,15 @@ A `GreenCar` is a car with Fuel either Hydrogen or Electricity. `GreenCar` will 
 
 `CarList` will have, at minimum, the following methods. You may add additional helper methods as appropriate.
 
-
-**`addCar`** - this method takes as input a `Car` and inserts it into the array *in sorted order*. If the array is full it will be resized to accommodate a new item. If two `Car` objects are equal according to `compareTo` they will be sorted in the list in the **reverse** order in which they appear in the original data file.
-
-**`toString`** - returns a `String` representation of the entire database. The representation of a `GasCar` will look as follows: 
-
-`Model: VOLVO XC 90 Class: standard SUV Pollution Score: 9 MPG: 25 Cylinders: 4` 
-
-The representation of a `GreenCar` will look as follows: 
-
-`Model: FIAT 500e Class: small car Pollution Score: 10 Fuel Type: Electricity`
-
-**`toStringGreenCars`** - returns a `String` representation of the `GreenCar` objects in the list where the representation for each `Car` is of the following format: 
-
-`Model: BMW i3 BEV Fuel Type: Electricity` 
-
-Note, the format for this method is different than that of the `toString` method.
-
-**`avgMpg`** - takes no parameters and returns the average MPG across all `GasCar` objects.
-
-**`avgMpgByPartialModel`** - takes as input a `String` with a partial model (for example, "Subaru") and returns the average MPG for all cars with a model *containing* the partial model query `String`. You may use the `String` `contains` method in your solution for this method.
-
-**`findClassesByCylinders`** - takes as input an `int` specifying number of cylinders and returns a `String[]` containing the vehicle classes with models that have the specified number of cylinders. For full credit, the `String[]` will have no repeated elements (each class will only appear once) and the length must be large enough to accommodate only the number of valid elements. The resulting array will be sorted and *you may use `Arrays.sort` for this purpose*.
-
-**`findModelsByClassAndMpg`** - takes as input a target vehicle class and a minimum MPG and returns a `String[]` containing the models of all vehicles of the specified class that have *at least* the specified combined MPG. The `String[]` may have repeated elements if the same model appears twice in the dataset, but the the length must be large enough to accommodate only the number of valid elements. The resulting array will be sorted and *you may use `Arrays.sort` for this purpose*.
+| Method | Description |
+| ------ | ---------- |
+| `addCar` | Takes as input a `Car` and inserts it into the array in sorted order. If the array is full it will be resized to accommodate a new item. If two `Car` objects are equal according to `compareTo` they will be sorted in the list in the **reverse** order in which they appear in the original data file. |
+| `toString` | Returns a `String` representation of the entire database. The representation of a `GasCar` will look as follows: `Model: VOLVO XC 90 Class: standard SUV Pollution Score: 9 MPG: 25 Cylinders: 4` The representation of a `GreenCar` will look as follows: `Model: FIAT 500e Class: small car Pollution Score: 10 Fuel Type: Electricity`|
+|`toStringGreenCars` | Returns a `String` representation of the `GreenCar` objects in the list where the representation for each `Car` is of the following format: `Model: BMW i3 BEV Fuel Type: Electricity` Note, the format for this method is different than that of the `toString` method. |
+| `avgMpg` | Takes no parameters and returns the average MPG across all `GasCar` objects.|
+| `avgMpgByPartialModel` | Takes as input a `String` with a partial model (for example, "Subaru") and returns the average MPG for all cars with a model *containing* the partial model query `String`. You may use the `String` `contains` method in your solution for this method.
+| `findClassesByCylinders`| Takes as input an `int` specifying number of cylinders and returns a `String[]` containing the vehicle classes with models that have the specified number of cylinders. For full credit, the `String[]` will have no repeated elements (each class will only appear once) and the length must be large enough to accommodate only the number of valid elements. The resulting array will be sorted and *you may use `Arrays.sort` for this purpose*. |
+|`findModelsByClassAndMpg` | Takes as input a target vehicle class and a minimum MPG and returns a `String[]` containing the models of all vehicles of the specified class that have *at least* the specified combined MPG. The `String[]` may have repeated elements if the same model appears twice in the dataset, but the the length must be large enough to accommodate only the number of valid elements. The resulting array will be sorted and *you may use `Arrays.sort` for this purpose*.|
 
 ### `CarDBDriver`
 
