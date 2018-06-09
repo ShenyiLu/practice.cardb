@@ -11,7 +11,7 @@ In this practice assignment, you will practice using the following:
 
 ### Overview
 
-For this assignment, you will build a database using the following CSV file: [cars.csv](). You will then implement a driver class that invokes methods to retrieve required information from the database.
+For this assignment, you will build a database using the following CSV file: [cars.csv](https://raw.githubusercontent.com/CS601-F18/practice.cardb/master/cars.csv). You will then implement a driver class that invokes methods to retrieve required information from the database.
 
 If this were a graded assignment, your grade will depend heavily on the *design* of your solution. Make sure that all of the requirements are followed and that the remaining components are well-designed and efficient.
 
@@ -100,7 +100,7 @@ The main method will expect four command line parameters. The first will be the 
 
 The suggested algorithm for this method is as follows:
 
-  - Build a `CarList` object from the file [cars.csv](https://raw.githubusercontent.com/CS112-F17/projects/master/resources/cars.csv).
+  - Build a `CarList` object from the file [cars.csv](https://raw.githubusercontent.com/CS601-F18/practice.cardb/master/cars.csv).
   - Output "All Cars:" followed by a newline.
   - Output the result of calling `toString` on the `CarList`.
   - Output "Green Cars - Fuel Type:" followed by a newline.
@@ -116,7 +116,7 @@ The suggested algorithm for this method is as follows:
 
 ### Additional Requirements and Hints
  
-Your output must **exactly** match the following: [expected.txt]() All spacing, indentation, and ordering must exactly match the result. The `CarDBTest` case will not pass unless your output matches exactly.
+Your output must **exactly** match the following: [expected.txt](https://raw.githubusercontent.com/CS601-F18/practice.cardb/master/expected.txt) All spacing, indentation, and ordering must exactly match the result. The `CarDBTest` case will not pass unless your output matches exactly.
 
 You *may* implement classes in addition to those specified.
 
