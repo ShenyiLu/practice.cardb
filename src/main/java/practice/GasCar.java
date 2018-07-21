@@ -17,8 +17,4 @@ public class GasCar extends Car {
     public int getMpg() {
         return mpg;
     }
-
-    public String getCarType() {
-        return "GasCar";
-    }
 }

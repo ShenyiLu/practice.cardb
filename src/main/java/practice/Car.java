@@ -23,10 +23,6 @@ public class Car {
         return pollutionScore;
     }
 
-    public String getCarType() {
-        return "Car";
-    }
-
     public int compare(Car car1, Car car2) {
         if (car1.getPollutionScore() == car2.getPollutionScore()) {
             return car1.getModel().compareTo(car2.getModel());
