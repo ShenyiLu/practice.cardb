@@ -1,5 +1,7 @@
 package practice;
 
+import java.util.Arrays;
+
 public class CarList {
     private Car[] carArray;
     private int endIndex;
@@ -94,7 +96,7 @@ public class CarList {
      * @return
      */
     // does avgMpg contain GreenCar?
-    public double avgMpgByPartialModel(String model){
+    public double avgMpgByPartialModel(String model) {
         double totalMpg = 0;
         int count = 0;
         for (int i = 0; i < carArray.length; i++) {
@@ -115,8 +117,40 @@ public class CarList {
      * @param cylinderCount
      * @return
      */
-    public String[] findClassesByCylinders(int cylinderCount){
-        return null;
+    public String[] findClassesByCylinders(int cylinderCount) {
+        String[] result = new String[10];
+        int endIndex = -1;
+        for (int i = 0; i < carArray.length; i++) {
+            if (carArray[i] instanceof GasCar && ((GasCar) carArray[i]).getNumberCylinders() == cylinderCount) {
+                String model = ((GasCar) carArray[i]).getModel();
+                if (endIndex == -1) {
+                    endIndex++;
+                    result[endIndex] = model;
+                    continue;
+                }
+                // check duplicate
+                Boolean containModel = false;
+                for (int j = 0; j <= endIndex; j++) {
+                    if (model.equals(result[j])) {
+                        containModel = true;
+                    }
+                }
+                if (!containModel) {
+                    endIndex++;
+                    result[endIndex] = model;
+                }
+                // resize if result array is full
+                if (endIndex == result.length - 1) {
+                    result = resizeString(result);
+                }
+            }
+        }
+
+        if (endIndex == -1) {
+            return null;
+        } else {
+            return cropString(result, endIndex);
+        }
     }
 
     /**
@@ -127,35 +161,77 @@ public class CarList {
      * @param minMpg
      * @return
      */
-    public String[] findModelsByClassAndMpg(String vehicleClass, int minMpg){
-        return null;
+    public String[] findModelsByClassAndMpg(String vehicleClass, int minMpg) {
+        String[] result = new String[10];
+        int endIndex = -1;
+        for (int i = 0; i < carArray.length; i++) {
+            if (carArray[i] instanceof GasCar && ((GasCar) carArray[i]).getVehicleClass().equals(vehicleClass)
+                    && ((GasCar) carArray[i]).getMpg() > minMpg) {
+                String model = ((GasCar) carArray[i]).getModel();
+                endIndex++;
+                result[endIndex] = model;
+                // resize if result array is full
+                if (endIndex == result.length - 1) {
+                    result = resizeString(result);
+                }
+            }
+        }
+
+        if (endIndex == -1) {
+            return null;
+        } else {
+            return cropString(result, endIndex);
+        }
     }
 
     /**
      * when carArray is full, call this method to resize it.
      */
-    private void resize(){
+    private void resize() {
         Car[] newArray = new Car[2 * carArray.length];
-        for (int i = 0; i < carArray.length; i++){
+        for (int i = 0; i < carArray.length; i++) {
             newArray[i] = carArray[i];
         }
         carArray = newArray;
     }
 
     /**
+     * when String[] in findModels is full, call this method to resize it.
+     */
+    private String[] resizeString(String[] input) {
+        String[] output = new String[input.length * 2];
+        for (int i = 0; i < input.length; i++) {
+            output[i] = input[i];
+        }
+        return output;
+    }
+
+    /**
+     * when findModels should return result, call this method to crop it and sort the result.
+     */
+    private String[] cropString(String[] input, int endIndex) {
+        String[] output = new String[endIndex + 1];
+        for (int i = 0; i <= endIndex; i++) {
+            output[i] = input[i];
+        }
+        Arrays.sort(output);
+        return output;
+    }
+
+    /**
      * use linear search to find insertion place in small array
      */
-    private void linearInsertion(int start, int end, Car car){
-        if (end == -1){
+    private void linearInsertion(int start, int end, Car car) {
+        if (end == -1) {
             carArray[0] = car;
             return;
         }
         int i = endIndex;
-        while (i > start && car.compare(carArray[i]) <= 0){
+        while (i > start && car.compare(carArray[i]) <= 0) {
             carArray[i] = carArray[i - 1];
             i--;
         }
-        if (car.compare(carArray[i]) > 0){
+        if (car.compare(carArray[i]) > 0) {
             i++;
         }
         carArray[i] = car;
@@ -164,27 +240,27 @@ public class CarList {
     /**
      * use hybrid binary search to find insertion place in large array
      */
-    private void binaryInsertion(int start, int end, Car car){
-        if ((end - start) <= 10){
+    private void binaryInsertion(int start, int end, Car car) {
+        if ((end - start) <= 10) {
             linearInsertion(start, end, car);
             return;
         }
 
         int mid = (start + end) / 2;
         // check this later
-        if (car.compare(carArray[mid]) < 0){
+        if (car.compare(carArray[mid]) < 0) {
             binaryInsertion(start, mid, car);
-        } else if (car.compare(carArray[mid]) > 0){
+        } else if (car.compare(carArray[mid]) > 0) {
             binaryInsertion(mid, end, car);
         } else {
-            while(car.compare(carArray[mid]) == 0 && mid >= 0){
+            while (car.compare(carArray[mid]) == 0 && mid >= 0) {
                 mid--;
             }
             mid++;
             // to make sure car will be inserted in reverse order, and keep in range of array index
             // mid should be at least 0
 
-            for(int i = endIndex; i > mid; i--){
+            for (int i = endIndex; i > mid; i--) {
                 carArray[i] = carArray[i - 1];
             }
             carArray[mid] = car;
