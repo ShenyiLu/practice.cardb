@@ -4,7 +4,6 @@ public class GasCar extends Car {
     private int numberCylinders;
     private int mpg;
 
-
     public GasCar(String model, String vehicleClass, int pollutionScore, int numberCylinders, int mpg) {
         super(model, vehicleClass, pollutionScore);
         this.numberCylinders = numberCylinders;
@@ -17,5 +16,9 @@ public class GasCar extends Car {
 
     public int getMpg() {
         return mpg;
+    }
+
+    public String getCarType() {
+        return "GasCar";
     }
 }

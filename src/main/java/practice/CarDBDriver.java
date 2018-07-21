@@ -1,11 +1,16 @@
 package practice;
 
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
 /**
  * Driver class for the car database.
  *
  */
 public class CarDBDriver{
 
+	private CarList carList;
 	/**
 	 * Main logic
 	 * 
@@ -53,6 +58,76 @@ public class CarDBDriver{
 		 *     findModelsByClassAndMpg("small car", 35) on the CarList. For each item in the list returned, 
 		 *     output a tab followed by the item followed by a newline.
 		 */
+
 		
+	}
+
+	/**
+	 * Scan Input file and build Carlist object
+	 * @param filename
+	 */
+	private void csvReader(String filename){
+		return;
+	}
+
+	/**
+	 * Output txt file
+	 * @param filename
+	 */
+	private void output(String filename){
+		try (PrintWriter pw = new PrintWriter(filename)){
+			pw.println("All Cars:");
+			pw.println(carList.toString());
+
+			pw.println("Green Cars - Fuel Type:");
+			pw.println(carList.toStringGreenCars());
+
+			pw.println("Average MPG All:");
+			formatDigit(carList.avgMpg(), pw);
+
+			pw.println("Average MPG Subaru:");
+			formatDigit(carList.avgMpgByPartialModel("SUBARU"), pw);
+
+			pw.println("Average MPG Toyota:");
+			formatDigit(carList.avgMpgByPartialModel("TOYOTA"), pw);
+
+			pw.println("Average MPG Ferrari:");
+			formatDigit(carList.avgMpgByPartialModel("FERRARI"), pw);
+
+			pw.println("Vehicle Classes with 4-Cylinder Cars:");
+			formatString(carList.findClassesByCylinders(4), pw);
+
+			pw.println("Vehicle Classes with 6-Cylinder Cars:");
+			formatString(carList.findClassesByCylinders(6), pw);
+
+			pw.println("Small SUVs with MPG > 22:");
+			formatString(carList.findModelsByClassAndMpg("small SUV", 22), pw);
+
+			pw.println("Small Cars with MPG > 35:");
+			formatString(carList.findModelsByClassAndMpg("small car", 35), pw);
+
+
+			pw.flush();
+		} catch (IOException e) {
+			System.out.println("Error writing to a file: " + e);
+		}
+
+		return;
+	}
+
+	/**
+	 * Format output of avgMpg method
+	 */
+	private void formatDigit(double mpg, PrintWriter pw){
+		pw.println(String.format("%.2f",mpg));
+	}
+
+	/**
+	 * Format output of findClasses and findModels methods
+	 */
+	private void formatString(String[] model, PrintWriter pw){
+		for (int i = 0; i < model.length; i++){
+			pw.println("\t" + model[i]);
+		}
 	}
 }

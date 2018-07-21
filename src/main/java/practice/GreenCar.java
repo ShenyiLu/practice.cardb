@@ -11,4 +11,8 @@ public class GreenCar extends Car {
     public String getFuelType() {
         return fuelType;
     }
+
+    public String getCarType() {
+        return "GreenCar";
+    }
 }
