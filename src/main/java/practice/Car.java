@@ -23,10 +23,10 @@ public class Car {
         return pollutionScore;
     }
 
-    public int compare(Car car1, Car car2) {
-        if (car1.getPollutionScore() == car2.getPollutionScore()) {
-            return car1.getModel().compareTo(car2.getModel());
+    public int compare(Car car2) {
+        if (getPollutionScore() == car2.getPollutionScore()) {
+            return getModel().compareTo(car2.getModel());
         }
-        return car1.getPollutionScore().compareTo(car2.getPollutionScore());
+        return getPollutionScore().compareTo(car2.getPollutionScore());
     }
 }

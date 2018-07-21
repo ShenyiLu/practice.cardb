@@ -2,11 +2,11 @@ package practice;
 
 public class CarList {
     private Car[] carArray;
-    private int size;
+    private int endIndex;
 
     public CarList(){
         carArray = new Car[10];
-        size = 0;
+        endIndex = -1;
     }
 
     /**
@@ -17,15 +17,16 @@ public class CarList {
         //Takes as input a Car and inserts it into the array in sorted order.
         // If two Car objects are equal according to compareTo they will be sorted in the list
         // in the reverse order in which they appear in the original data file.
-        if (size == carArray.length){
-            resize();
-        }
-        if (size <= 10){
-            linearInsertion();
-            size++;
+
+        if (endIndex <= 10){
+            linearInsertion(0, endIndex, car);
+            endIndex++;
         } else {
-            binaryInsertion();
-            size++;
+            binaryInsertion(0, endIndex, car);
+            endIndex++;
+        }
+        if (endIndex == carArray.length){
+            resize();
         }
     }
 
@@ -142,16 +143,52 @@ public class CarList {
     }
 
     /**
-     * use linear search to find insertion place in small size of array
+     * use linear search to find insertion place in small array
      */
-    private void linearInsertion(){
-
+    private void linearInsertion(int start, int end, Car car){
+        if (end == -1){
+            carArray[0] = car;
+            return;
+        }
+        int i = endIndex;
+        while (i > start && car.compare(carArray[i]) <= 0){
+            carArray[i] = carArray[i - 1];
+            i--;
+        }
+        if (car.compare(carArray[i]) > 0){
+            i++;
+        }
+        carArray[i] = car;
     }
 
     /**
-     * use binary search to find insertion place in large size of array
+     * use hybrid binary search to find insertion place in large array
      */
-    private void binaryInsertion(){
+    private void binaryInsertion(int start, int end, Car car){
+        if ((end - start) <= 10){
+            linearInsertion(start, end, car);
+            return;
+        }
 
+        int mid = (start + end) / 2;
+        // check this later
+        if (car.compare(carArray[mid]) < 0){
+            binaryInsertion(start, mid, car);
+        } else if (car.compare(carArray[mid]) > 0){
+            binaryInsertion(mid, end, car);
+        } else {
+            while(car.compare(carArray[mid]) == 0 && mid >= 0){
+                mid--;
+            }
+            mid++;
+            // to make sure car will be inserted in reverse order, and keep in range of array index
+            // mid should be at least 0
+
+            for(int i = endIndex; i > mid; i--){
+                carArray[i] = carArray[i - 1];
+            }
+            carArray[mid] = car;
+            return;
+        }
     }
 }
