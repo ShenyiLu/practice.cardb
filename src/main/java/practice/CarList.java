@@ -27,6 +27,12 @@ public class CarList {
             binaryInsertion(0, endIndex, car);
             endIndex++;
         }
+
+        System.out.println("Current Car List");
+        for (int i = 0; i <= endIndex; i++) {
+            System.out.println(carArray[i].getModel());
+        }
+
         if (endIndex == carArray.length){
             resize();
         }
@@ -38,19 +44,23 @@ public class CarList {
      */
     public String toString() {
         StringBuffer buffer = new StringBuffer();
-        for (int i = 0; i < carArray.length; i++) {
+        for (int i = 0; i < endIndex; i++) {
             StringBuffer temp = new StringBuffer();
             Car tempCar = carArray[i];
             temp.append("Model: " + tempCar.getModel());
             temp.append(" Class: " + tempCar.getVehicleClass());
             temp.append(" Pollution Score: " + tempCar.getPollutionScore());
-            if (carArray[i] instanceof GreenCar) {
-                buffer.append(temp.toString() + " Fuel Type: " + ((GreenCar) tempCar).getFuelType() + "\n");
-            } else {
-                buffer.append(temp.toString() + " MPG: " + ((GasCar) tempCar).getMpg() + " Cylinders: "
-                        + ((GasCar) tempCar).getNumberCylinders() + "\n");
-            }
 
+            String partialResult;
+            if (carArray[i] instanceof GreenCar) {
+                partialResult = temp.toString() + " Fuel Type: " + ((GreenCar) tempCar).getFuelType() + "\n";
+                buffer.append(partialResult);
+
+            } else {
+                partialResult = temp.toString() + " MPG: " + ((GasCar) tempCar).getMpg() + " Cylinders: "
+                        + ((GasCar) tempCar).getNumberCylinders() + "\n";
+                buffer.append(partialResult);
+            }
         }
         return buffer.toString();
     }
@@ -61,7 +71,7 @@ public class CarList {
      */
     public String toStringGreenCars() {
         StringBuffer buffer = new StringBuffer();
-        for (int i = 0; i < carArray.length; i++) {
+        for (int i = 0; i < endIndex; i++) {
             if (!(carArray[i] instanceof GreenCar)) {
                 continue;
             }
@@ -78,7 +88,7 @@ public class CarList {
     public double avgMpg() {
         double totalMpg = 0;
         int count = 0;
-        for (int i = 0; i < carArray.length; i++) {
+        for (int i = 0; i < endIndex; i++) {
             if (carArray[i] instanceof GasCar) {
                 GasCar tempCar = (GasCar) carArray[i];
                 totalMpg += (double) tempCar.getMpg();
@@ -99,7 +109,7 @@ public class CarList {
     public double avgMpgByPartialModel(String model) {
         double totalMpg = 0;
         int count = 0;
-        for (int i = 0; i < carArray.length; i++) {
+        for (int i = 0; i < endIndex; i++) {
             // all models in CSV are upper letter, seems no need to parse
             if ((carArray[i] instanceof GasCar) && (carArray[i].getModel().contains(model))) {
                 GasCar tempCar = (GasCar) carArray[i];
@@ -119,37 +129,37 @@ public class CarList {
      */
     public String[] findClassesByCylinders(int cylinderCount) {
         String[] result = new String[10];
-        int endIndex = -1;
-        for (int i = 0; i < carArray.length; i++) {
+        int stringEndIndex = -1;
+        for (int i = 0; i < endIndex; i++) {
             if (carArray[i] instanceof GasCar && ((GasCar) carArray[i]).getNumberCylinders() == cylinderCount) {
                 String model = ((GasCar) carArray[i]).getModel();
-                if (endIndex == -1) {
-                    endIndex++;
-                    result[endIndex] = model;
+                if (stringEndIndex == -1) {
+                    stringEndIndex++;
+                    result[stringEndIndex] = model;
                     continue;
                 }
                 // check duplicate
                 Boolean containModel = false;
-                for (int j = 0; j <= endIndex; j++) {
+                for (int j = 0; j <= stringEndIndex; j++) {
                     if (model.equals(result[j])) {
                         containModel = true;
                     }
                 }
                 if (!containModel) {
-                    endIndex++;
-                    result[endIndex] = model;
+                    stringEndIndex++;
+                    result[stringEndIndex] = model;
                 }
                 // resize if result array is full
-                if (endIndex == result.length - 1) {
+                if (stringEndIndex == result.length - 1) {
                     result = resizeString(result);
                 }
             }
         }
 
-        if (endIndex == -1) {
+        if (stringEndIndex == -1) {
             return null;
         } else {
-            return cropString(result, endIndex);
+            return cropString(result, stringEndIndex);
         }
     }
 
@@ -163,24 +173,24 @@ public class CarList {
      */
     public String[] findModelsByClassAndMpg(String vehicleClass, int minMpg) {
         String[] result = new String[10];
-        int endIndex = -1;
-        for (int i = 0; i < carArray.length; i++) {
+        int StringEndIndex = -1;
+        for (int i = 0; i < endIndex; i++) {
             if (carArray[i] instanceof GasCar && ((GasCar) carArray[i]).getVehicleClass().equals(vehicleClass)
                     && ((GasCar) carArray[i]).getMpg() > minMpg) {
                 String model = ((GasCar) carArray[i]).getModel();
-                endIndex++;
-                result[endIndex] = model;
+                StringEndIndex++;
+                result[StringEndIndex] = model;
                 // resize if result array is full
-                if (endIndex == result.length - 1) {
+                if (StringEndIndex == result.length - 1) {
                     result = resizeString(result);
                 }
             }
         }
 
-        if (endIndex == -1) {
+        if (StringEndIndex == -1) {
             return null;
         } else {
-            return cropString(result, endIndex);
+            return cropString(result, StringEndIndex);
         }
     }
 
@@ -222,19 +232,31 @@ public class CarList {
      * use linear search to find insertion place in small array
      */
     private void linearInsertion(int start, int end, Car car) {
-        if (end == -1) {
+        if (endIndex == -1) {
             carArray[0] = car;
             return;
         }
-        int i = endIndex;
-        while (i > start && car.compare(carArray[i]) <= 0) {
+
+        // this is a special case to handle ACURA ILX, which caused a special problem
+        // didn't solve problem, will reconsider main logic
+        if (endIndex == 0) {
+            if (car.compare(carArray[start]) > 0) {
+                carArray[start + 1] = car;
+            } else {
+                carArray[start + 1] = carArray[start];
+                carArray[start] = car;
+            }
+            return;
+        }
+
+        int insert = start;
+        while (insert < end && car.compare(carArray[insert]) > 0){
+            insert++;
+        }
+        for (int i = endIndex; i > insert; i--) {
             carArray[i] = carArray[i - 1];
-            i--;
         }
-        if (car.compare(carArray[i]) > 0) {
-            i++;
-        }
-        carArray[i] = car;
+        carArray[insert] = car;
     }
 
     /**

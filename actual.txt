@@ -1,0 +1,22 @@
+All Cars:
+Model: ACURA ILX Class: small car Pollution Score: 6 MPG: 29 Cylinders: 4
+Model: ACURA MDX Class: small SUV Pollution Score: 6 MPG: 23 Cylinders: 6
+Model: ACURA MDX Class: small SUV Pollution Score: 6 MPG: 22 Cylinders: 6
+
+Green Cars - Fuel Type:
+
+Average MPG All:
+24.67
+Average MPG Subaru:
+NaN
+Average MPG Toyota:
+NaN
+Average MPG Ferrari:
+NaN
+Vehicle Classes with 4-Cylinder Cars:
+	ACURA ILX
+Vehicle Classes with 6-Cylinder Cars:
+	ACURA MDX
+Small SUVs with MPG > 22:
+	ACURA MDX
+Small Cars with MPG > 35:

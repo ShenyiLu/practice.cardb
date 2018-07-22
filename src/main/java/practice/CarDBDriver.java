@@ -56,7 +56,8 @@ public class CarDBDriver{
 		 *     findModelsByClassAndMpg("small car", 35) on the CarList. For each item in the list returned, 
 		 *     output a tab followed by the item followed by a newline.
 		 */
-		CarDBBuilder builder = new CarDBBuilder(args);
+		String[] order = "-in carscopy.csv -out actual.txt".split(" ");
+		CarDBBuilder builder = new CarDBBuilder(order);
 	}
 
 }

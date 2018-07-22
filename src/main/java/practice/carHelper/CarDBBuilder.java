@@ -16,8 +16,8 @@ public class CarDBBuilder {
 
     public CarDBBuilder(String[] args){
         carList = new CarList();
-        csvReader(args[3]);
-        output(args[5]);
+        csvReader(args[1]);
+        output(args[3]);
     }
 
     /**
@@ -108,6 +108,7 @@ public class CarDBBuilder {
      * Format output of findClasses and findModels methods
      */
     private void formatString(String[] model, PrintWriter pw) {
+        System.out.println(model.length);
         for (int i = 0; i < model.length; i++) {
             pw.println("\t" + model[i]);
         }
