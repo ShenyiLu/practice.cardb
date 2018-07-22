@@ -66,17 +66,21 @@ public class CarDBBuilder {
             pw.println("Green Cars - Fuel Type:");
             pw.println(carList.toStringGreenCars());
 
-            pw.println("Average MPG All:");
+            pw.print("Average MPG All: ");
             formatDigit(carList.avgMpg(), pw);
+            pw.println();
 
-            pw.println("Average MPG Subaru:");
+            pw.print("Average MPG Subaru: ");
             formatDigit(carList.avgMpgByPartialModel("SUBARU"), pw);
+            pw.println();
 
-            pw.println("Average MPG Toyota:");
+            pw.print("Average MPG Toyota: ");
             formatDigit(carList.avgMpgByPartialModel("TOYOTA"), pw);
+            pw.println();
 
-            pw.println("Average MPG Ferrari:");
+            pw.print("Average MPG Ferrari: ");
             formatDigit(carList.avgMpgByPartialModel("FERRARI"), pw);
+            pw.println();
 
             pw.println("Vehicle Classes with 4-Cylinder Cars:");
             formatString(carList.findClassesByCylinders(4), pw);
@@ -108,7 +112,9 @@ public class CarDBBuilder {
      * Format output of findClasses and findModels methods
      */
     private void formatString(String[] model, PrintWriter pw) {
-        System.out.println(model.length);
+        if (model == null) {
+            return;
+        }
         for (int i = 0; i < model.length; i++) {
             pw.println("\t" + model[i]);
         }

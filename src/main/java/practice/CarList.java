@@ -28,12 +28,7 @@ public class CarList {
             endIndex++;
         }
 
-        System.out.println("Current Car List");
-        for (int i = 0; i <= endIndex; i++) {
-            System.out.println(carArray[i].getModel());
-        }
-
-        if (endIndex == carArray.length){
+        if (endIndex == carArray.length - 1){
             resize();
         }
     }
@@ -44,7 +39,8 @@ public class CarList {
      */
     public String toString() {
         StringBuffer buffer = new StringBuffer();
-        for (int i = 0; i < endIndex; i++) {
+
+        for (int i = 0; i <= endIndex; i++) {
             StringBuffer temp = new StringBuffer();
             Car tempCar = carArray[i];
             temp.append("Model: " + tempCar.getModel());
@@ -71,12 +67,12 @@ public class CarList {
      */
     public String toStringGreenCars() {
         StringBuffer buffer = new StringBuffer();
-        for (int i = 0; i < endIndex; i++) {
+        for (int i = 0; i <= endIndex; i++) {
             if (!(carArray[i] instanceof GreenCar)) {
                 continue;
             }
             GreenCar tempCar = (GreenCar) carArray[i];
-            buffer.append("Model: " + tempCar.getModel() + " Fuel Type: " + tempCar.getFuelType());
+            buffer.append("Model: " + tempCar.getModel() + " Fuel Type: " + tempCar.getFuelType()+ "\n");
         }
         return buffer.toString();
     }
@@ -88,7 +84,7 @@ public class CarList {
     public double avgMpg() {
         double totalMpg = 0;
         int count = 0;
-        for (int i = 0; i < endIndex; i++) {
+        for (int i = 0; i <= endIndex; i++) {
             if (carArray[i] instanceof GasCar) {
                 GasCar tempCar = (GasCar) carArray[i];
                 totalMpg += (double) tempCar.getMpg();
@@ -109,7 +105,7 @@ public class CarList {
     public double avgMpgByPartialModel(String model) {
         double totalMpg = 0;
         int count = 0;
-        for (int i = 0; i < endIndex; i++) {
+        for (int i = 0; i <= endIndex; i++) {
             // all models in CSV are upper letter, seems no need to parse
             if ((carArray[i] instanceof GasCar) && (carArray[i].getModel().contains(model))) {
                 GasCar tempCar = (GasCar) carArray[i];
@@ -130,9 +126,9 @@ public class CarList {
     public String[] findClassesByCylinders(int cylinderCount) {
         String[] result = new String[10];
         int stringEndIndex = -1;
-        for (int i = 0; i < endIndex; i++) {
+        for (int i = 0; i <= endIndex; i++) {
             if (carArray[i] instanceof GasCar && ((GasCar) carArray[i]).getNumberCylinders() == cylinderCount) {
-                String model = ((GasCar) carArray[i]).getModel();
+                String model = ((GasCar) carArray[i]).getVehicleClass();
                 if (stringEndIndex == -1) {
                     stringEndIndex++;
                     result[stringEndIndex] = model;
@@ -174,9 +170,9 @@ public class CarList {
     public String[] findModelsByClassAndMpg(String vehicleClass, int minMpg) {
         String[] result = new String[10];
         int StringEndIndex = -1;
-        for (int i = 0; i < endIndex; i++) {
+        for (int i = 0; i <= endIndex; i++) {
             if (carArray[i] instanceof GasCar && ((GasCar) carArray[i]).getVehicleClass().equals(vehicleClass)
-                    && ((GasCar) carArray[i]).getMpg() > minMpg) {
+                    && ((GasCar) carArray[i]).getMpg() >= minMpg) {
                 String model = ((GasCar) carArray[i]).getModel();
                 StringEndIndex++;
                 result[StringEndIndex] = model;
@@ -232,29 +228,20 @@ public class CarList {
      * use linear search to find insertion place in small array
      */
     private void linearInsertion(int start, int end, Car car) {
-        if (endIndex == -1) {
+        if (end == -1) {
             carArray[0] = car;
             return;
         }
 
-        // this is a special case to handle ACURA ILX, which caused a special problem
-        // didn't solve problem, will reconsider main logic
-        if (endIndex == 0) {
-            if (car.compare(carArray[start]) > 0) {
-                carArray[start + 1] = car;
-            } else {
-                carArray[start + 1] = carArray[start];
-                carArray[start] = car;
-            }
-            return;
-        }
-
-        int insert = start;
-        while (insert < end && car.compare(carArray[insert]) > 0){
+        int insert = start; //edge case: start == end == 0
+        while (insert <= end && car.compare(carArray[insert]) > 0){
             insert++;
         }
-        for (int i = endIndex; i > insert; i--) {
-            carArray[i] = carArray[i - 1];
+
+        if (insert != endIndex + 1) {
+            for (int i = endIndex + 1; i > insert; i--) {
+                carArray[i] = carArray[i - 1];
+            }
         }
         carArray[insert] = car;
     }
@@ -282,7 +269,7 @@ public class CarList {
             // to make sure car will be inserted in reverse order, and keep in range of array index
             // mid should be at least 0
 
-            for (int i = endIndex; i > mid; i--) {
+            for (int i = endIndex + 1; i > mid; i--) {
                 carArray[i] = carArray[i - 1];
             }
             carArray[mid] = car;
